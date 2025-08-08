@@ -65,6 +65,7 @@ public class MaterialConverter : EditorWindow
     private static void ConvertMaterials(Material[] materials)
     {
         int convertedCount = 0;
+        Shader urpShader = Shader.Find("Universal Render Pipeline/Lit");
 
         foreach (Material oldMat in materials)
         {
@@ -72,45 +73,65 @@ public class MaterialConverter : EditorWindow
             if (oldMat.shader.name.Contains("Universal Render Pipeline"))
                 continue;
 
-            // Создаем новый материал с URP шейдером
-            Material newMat = new Material(Shader.Find("Universal Render Pipeline/Lit"));
+            // Сохраняем все свойства перед изменением шейдера
+            Texture mainTex = oldMat.HasProperty("_MainTex") ? oldMat.GetTexture("_MainTex") : null;
+            Color mainColor = oldMat.HasProperty("_Color") ? oldMat.GetColor("_Color") : Color.white;
+            Texture metallicMap = oldMat.HasProperty("_MetallicGlossMap") ? oldMat.GetTexture("_MetallicGlossMap") : null;
+            Texture bumpMap = oldMat.HasProperty("_BumpMap") ? oldMat.GetTexture("_BumpMap") : null;
+            Texture emissionMap = oldMat.HasProperty("_EmissionMap") ? oldMat.GetTexture("_EmissionMap") : null;
+            Color emissionColor = oldMat.HasProperty("_EmissionColor") ? oldMat.GetColor("_EmissionColor") : Color.black;
+            float metallic = oldMat.HasProperty("_Metallic") ? oldMat.GetFloat("_Metallic") : 0f;
+            float smoothness = oldMat.HasProperty("_Glossiness") ? oldMat.GetFloat("_Glossiness") : 0.5f;
+            float bumpScale = oldMat.HasProperty("_BumpScale") ? oldMat.GetFloat("_BumpScale") : 1f;
 
-            // Копируем основные параметры
-            if (oldMat.HasProperty("_MainTex"))
+            // Меняем шейдер на URP
+            oldMat.shader = urpShader;
+
+            // Восстанавливаем свойства в соответствии с URP
+            if (mainTex != null) oldMat.SetTexture("_BaseMap", mainTex);
+            oldMat.SetColor("_BaseColor", mainColor);
+
+            if (metallicMap != null) oldMat.SetTexture("_MetallicGlossMap", metallicMap);
+            if (bumpMap != null) oldMat.SetTexture("_BumpMap", bumpMap);
+            if (emissionMap != null)
             {
-                newMat.SetTexture("_BaseMap", oldMat.GetTexture("_MainTex"));
+                oldMat.SetTexture("_EmissionMap", emissionMap);
+                oldMat.SetColor("_EmissionColor", emissionColor);
+                oldMat.EnableKeyword("_EMISSION");
             }
 
-            if (oldMat.HasProperty("_Color"))
+            oldMat.SetFloat("_Metallic", metallic);
+            oldMat.SetFloat("_Smoothness", smoothness);
+            oldMat.SetFloat("_BumpScale", bumpScale);
+
+            // Для URP нужно установить режим работы с альфа-каналом
+            if (mainColor.a < 1.0f || (mainTex != null && HasTransparency(mainTex)))
             {
-                newMat.SetColor("_BaseColor", oldMat.GetColor("_Color"));
+                oldMat.SetFloat("_Surface", 1); // 1 = Transparent
+                oldMat.SetFloat("_Blend", 0); // 0 = Alpha
+                oldMat.renderQueue = (int)UnityEngine.Rendering.RenderQueue.Transparent;
+                oldMat.SetOverrideTag("RenderType", "Transparent");
+            }
+            else
+            {
+                oldMat.SetFloat("_Surface", 0); // 0 = Opaque
+                oldMat.renderQueue = (int)UnityEngine.Rendering.RenderQueue.Geometry;
+                oldMat.SetOverrideTag("RenderType", "Opaque");
             }
 
-            // Копируем другие параметры, если они есть
-            if (oldMat.HasProperty("_MetallicGlossMap"))
-            {
-                newMat.SetTexture("_MetallicGlossMap", oldMat.GetTexture("_MetallicGlossMap"));
-            }
-
-            if (oldMat.HasProperty("_BumpMap"))
-            {
-                newMat.SetTexture("_BumpMap", oldMat.GetTexture("_BumpMap"));
-            }
-
-            if (oldMat.HasProperty("_EmissionMap"))
-            {
-                newMat.SetTexture("_EmissionMap", oldMat.GetTexture("_EmissionMap"));
-                newMat.EnableKeyword("_EMISSION");
-            }
-
-            // Сохраняем новый материал
-            string path = AssetDatabase.GetAssetPath(oldMat);
-            AssetDatabase.CreateAsset(newMat, path);
             convertedCount++;
+            EditorUtility.SetDirty(oldMat);
         }
 
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
         Debug.Log($"Converted {convertedCount} materials to URP");
+    }
+
+    private static bool HasTransparency(Texture texture)
+    {
+        string path = AssetDatabase.GetAssetPath(texture);
+        TextureImporter importer = AssetImporter.GetAtPath(path) as TextureImporter;
+        return importer != null && importer.alphaSource != TextureImporterAlphaSource.None;
     }
 }
