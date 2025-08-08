@@ -23,6 +23,8 @@ public class MaterialConverter : EditorWindow
         {
             ConvertAllMaterials();
         }
+
+        EditorGUILayout.HelpBox("This will modify materials in-place, preserving all references.\nSmoothness will be set to 0 by default.", MessageType.Info);
     }
 
     private static void ConvertSelectedMaterials()
@@ -81,7 +83,15 @@ public class MaterialConverter : EditorWindow
             Texture emissionMap = oldMat.HasProperty("_EmissionMap") ? oldMat.GetTexture("_EmissionMap") : null;
             Color emissionColor = oldMat.HasProperty("_EmissionColor") ? oldMat.GetColor("_EmissionColor") : Color.black;
             float metallic = oldMat.HasProperty("_Metallic") ? oldMat.GetFloat("_Metallic") : 0f;
-            float smoothness = oldMat.HasProperty("_Glossiness") ? oldMat.GetFloat("_Glossiness") : 0.5f;
+
+            // Устанавливаем smoothness в 0 по умолчанию вместо 0.5
+            float smoothness = 0f;
+            if (oldMat.HasProperty("_Glossiness"))
+            {
+                // Можно раскомментировать, если нужно сохранять оригинальное значение
+                // smoothness = oldMat.GetFloat("_Glossiness");
+            }
+
             float bumpScale = oldMat.HasProperty("_BumpScale") ? oldMat.GetFloat("_BumpScale") : 1f;
 
             // Меняем шейдер на URP
@@ -101,7 +111,7 @@ public class MaterialConverter : EditorWindow
             }
 
             oldMat.SetFloat("_Metallic", metallic);
-            oldMat.SetFloat("_Smoothness", smoothness);
+            oldMat.SetFloat("_Smoothness", smoothness); // Установка smoothness в 0
             oldMat.SetFloat("_BumpScale", bumpScale);
 
             // Для URP нужно установить режим работы с альфа-каналом
@@ -125,7 +135,7 @@ public class MaterialConverter : EditorWindow
 
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
-        Debug.Log($"Converted {convertedCount} materials to URP");
+        Debug.Log($"Converted {convertedCount} materials to URP. Smoothness set to 0 by default.");
     }
 
     private static bool HasTransparency(Texture texture)
