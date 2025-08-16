@@ -1,5 +1,23 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8471636094400484616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a69f09a742fdd194eb760c24936dab85, type: 3}
+  m_Name: GrassDataRendererFeature
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  heightMapLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  heightMapMat: {fileID: 2100000, guid: 95d63adac2015d142aac17b9b535fd20, type: 2}
+  computeShader: {fileID: 7200000, guid: 6faaeebb3c9e1434a9a262ec25b9c479, type: 3}
 --- !u!114 &-5147983530151213304
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10,11 +28,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6b3d386ba5cd94485973aee1479b272e, type: 3}
-  m_Name: Render Feature - Outline Transparent
+  m_Name: Render Feature  Outline Transparent
   m_EditorClassIdentifier: 
-  m_Active: 1
+  m_Active: 0
   settings:
-    passTag: RenderObjectsFeature
+    passTag: Render Feature  Outline Transparent
     Event: 500
     filterSettings:
       RenderQueueType: 1
@@ -71,7 +89,8 @@ MonoBehaviour:
   - {fileID: 7833122117494664109}
   - {fileID: 4993464194951763593}
   - {fileID: -5147983530151213304}
-  m_RendererFeatureMap: ad6b866f10d7b46c00000000000000000000000000000000
+  - {fileID: -8471636094400484616}
+  m_RendererFeatureMap: ad6b866f10d7b46c00000000000000000000000000000000f8aae156dbb36e8a
   m_UseNativeRenderPass: 1
   xrSystemData: {fileID: 0}
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
@@ -96,7 +115,7 @@ MonoBehaviour:
   m_DepthAttachmentFormat: 0
   m_DepthTextureFormat: 0
   m_AccurateGbufferNormals: 0
-  m_IntermediateTextureMode: 0
+  m_IntermediateTextureMode: 1
 --- !u!114 &4993464194951763593
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -109,7 +128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b3d386ba5cd94485973aee1479b272e, type: 3}
   m_Name: Render Feature - Outline Opaque
   m_EditorClassIdentifier: 
-  m_Active: 1
+  m_Active: 0
   settings:
     passTag: RenderObjectsFeature
     Event: 300
@@ -152,7 +171,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f62c9c65cf3354c93be831c8bc075510, type: 3}
   m_Name: ScreenSpaceAmbientOcclusion
   m_EditorClassIdentifier: 
-  m_Active: 1
+  m_Active: 0
   m_Settings:
     AOMethod: 0
     Downsample: 0
