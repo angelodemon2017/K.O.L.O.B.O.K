@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2943b57294a79f14f952ac5b241f87f7, type: 3}
+  m_Name: Character config
+  m_EditorClassIdentifier: 
+  _characterConfigs:
+  - character: 0
+    AvatarChar: {fileID: 0}
+    DebugColor: {r: 1, g: 1, b: 1, a: 1}
+  - character: 1
+    AvatarChar: {fileID: 0}
+    DebugColor: {r: 0, g: 1, b: 0, a: 1}
+  - character: 2
+    AvatarChar: {fileID: 0}
+    DebugColor: {r: 0.5320754, g: 0.5320754, b: 0.5320754, a: 1}
+  - character: 3
+    AvatarChar: {fileID: 0}
+    DebugColor: {r: 0.6075471, g: 0.34701404, b: 0, a: 1}
+  - character: 4
+    AvatarChar: {fileID: 0}
+    DebugColor: {r: 1, g: 0.6524321, b: 0, a: 1}

@@ -1,0 +1,39 @@
+﻿using System;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class FailWindow : UIWindowBase<FailWindowModel>
+{
+    [SerializeField] private Button _repeatButton;
+    [SerializeField] private Button _exitButton;
+
+    public Action OnRepeat;
+    public Action OnExit;
+
+    public override void Show()
+    {
+        base.Show();
+        _repeatButton.onClick.AddListener(OnRepeatButtonClicked);
+        _exitButton.onClick.AddListener(OnExitButtonClicked);
+    }
+
+    private void OnRepeatButtonClicked()
+    {
+        OnRepeat?.Invoke();
+        Time.timeScale = 1f;
+    }
+
+    private void OnExitButtonClicked()
+    {
+        OnExit?.Invoke();
+        Debug.Log("Exit button clicked");
+        Time.timeScale = 1f;
+    }
+
+    public override void Hide()
+    {
+        base.Hide();
+        _repeatButton.onClick.RemoveListener(OnRepeatButtonClicked);
+        _exitButton.onClick.RemoveListener(OnExitButtonClicked);
+    }
+}
