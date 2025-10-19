@@ -3,6 +3,7 @@ using Zenject;
 
 public abstract class AppStateBase : IAppState
 {
+    [Inject] protected DiContainer _diContainer;
     protected SignalBus _signalBus;
     protected InputService _inputService;
     protected virtual bool _cursorIsAvaiable => true;

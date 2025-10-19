@@ -5,6 +5,7 @@ public class ProjectInstaller : MonoInstaller
 {
     [Header("MonoServices")]
     [SerializeField] private InputService _inputService;
+    [SerializeField] private MusicService _musicService;
 
     [Header("Prefabs")]
     [SerializeField] private Canvas _canvasPrefab;
@@ -59,12 +60,13 @@ public class ProjectInstaller : MonoInstaller
     {
         Container.BindInterfacesAndSelfTo<LevelService>().AsSingle();
         Container.BindInterfacesAndSelfTo<UIService>().AsSingle();
-        Container.BindInterfacesAndSelfTo<GameStateMachineService>().AsSingle();
+        Container.BindInterfacesAndSelfTo<GameStateMachineService<IAppState>>().AsSingle();
     }
 
     private void InitMonoServices()
     {
         Container.BindInstance(_inputService).AsSingle();
+        Container.BindInstance(_musicService).AsSingle();
     }
 
     private void InstallUI()
@@ -83,16 +85,9 @@ public class ProjectInstaller : MonoInstaller
     {        
         SignalBusInstaller.Install(Container);
         Container.DeclareSignal<ChangeSceneSignal>();
-        
-        Container.DeclareSignal<AppCinematicSignal>();
-        Container.DeclareSignal<AppCosmosSignal>();
-        Container.DeclareSignal<AppDialogSignal>();
-        Container.DeclareSignal<AppFailSignal>();
-        Container.DeclareSignal<AppGameplaySignal>();
-        Container.DeclareSignal<AppLaunchToCosmosSignal>();
-        Container.DeclareSignal<AppLoadingSignal>();
-        Container.DeclareSignal<AppMainMenuSignal>();
-        Container.DeclareSignal<AppPauseSignal>();
+        Container.DeclareSignal<PlayClipSignal>();
+
+        Container.DeclareSignal<AppStateSignal>();
     }
 
     private void InstallAppStates()

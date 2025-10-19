@@ -27,7 +27,7 @@ public class GameplayState : AppStateWithUIBase<GameplayWindow, GameplayWindowMo
 
     private void OnPauseButtonClick()
     {
-        _signalBus.Fire(new AppPauseSignal());
+        _signalBus.Fire(new AppStateSignal(_diContainer.Resolve<PauseMenuState>()));
     }
 
     private void OnSpace()

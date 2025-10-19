@@ -20,12 +20,15 @@ public class BunnyLevel : BaseMonoLevel
     [SerializeField] private CosmoController _cosmoController;
 
     [Header("Camp race")]
+    [SerializeField] private BaseDialogConfig _campDialog;
     [SerializeField] private GameObject _campTrigger;
     [SerializeField] private Transform _pointOfColobokAfterSpace;
 
     private bool _isCosmos = false;
+    private DiContainer _diContainer;
     private SignalBus _signalBus;
     private DialogWindowModel _dialogWindowModel;
+    private LaunchToCosmosWindowModel _launchToCosmosWindowModel;
 
     public override Inputer GetInputer =>
         _isCosmos ?
@@ -34,13 +37,15 @@ public class BunnyLevel : BaseMonoLevel
 
     [Inject]
     private void Constructor(
+        DiContainer diContainer,
         SignalBus signalBus,
-        DialogWindowModel dialogWindowModel)
+        DialogWindowModel dialogWindowModel,
+        LaunchToCosmosWindowModel launchToCosmosWindowModel)
     {
+        _diContainer = diContainer;
         _signalBus = signalBus;
         _dialogWindowModel = dialogWindowModel;
-
-        _signalBus.Subscribe<AppCosmosSignal>(Handle);
+        _launchToCosmosWindowModel = launchToCosmosWindowModel;
     }
 
     public override void StartLevel(int checkPoint = 0)
@@ -68,13 +73,13 @@ public class BunnyLevel : BaseMonoLevel
     {
         _dialogTrigger.SetActive(false);
         _dialogWindowModel.SetDialogEntity(_startDialog, EndOfDialog);
-        _signalBus.Fire(new AppDialogSignal());
+        _signalBus.Fire(new AppStateSignal(_diContainer.Resolve<DialogState>()));
     }
 
     private void EndOfDialog()
     {
         //rabbit go to start
-        _signalBus.Fire(new AppGameplaySignal());
+        _signalBus.Fire(new AppStateSignal(_diContainer.Resolve<GameplayState>()));
         _startRaceTrigger.SetActive(true);
         _bunnyController.SetTarget(_startRaceTrigger.transform);
     }
@@ -88,25 +93,24 @@ public class BunnyLevel : BaseMonoLevel
 
     public void TriggerMiddleRacing()
     {
-        ChangeCheckpoint?.Invoke(1);
         _middleOfRaceTrigger.SetActive(false);
         _dialogWindowModel.SetDialogEntity(_middleRaceDialog, StepAfterDialogMiddleRace);
-        _signalBus.Fire(new AppDialogSignal());
+        _signalBus.Fire(new AppStateSignal(_diContainer.Resolve<DialogState>()));
     }
 
     private void StepAfterDialogMiddleRace()
     {
+        ChangeCheckpoint?.Invoke(1);
         //launch music
-        //_signalBus.Fire(new AppGameplaySignal());
-        _signalBus.Fire(new AppLaunchToCosmosSignal());
+        _launchToCosmosWindowModel.CallBackAfterPowerToLaunch = () =>
+        {
+            _signalBus.Fire(new AppStateSignal(_diContainer.Resolve<CosmosState>()));
+            EnterToCosmos();
+        };
+        _signalBus.Fire(new AppStateSignal(_diContainer.Resolve<LaunchToCosmosState>()));
         _campTrigger.SetActive(true);
         _bunnyController.SetTarget(_campTrigger.transform);
         _isCosmos = true;
-    }
-
-    private void Handle(AppCosmosSignal appCosmos)
-    {
-        EnterToCosmos();
     }
 
     private void EnterToCosmos()
@@ -122,7 +126,7 @@ public class BunnyLevel : BaseMonoLevel
         ChangeCheckpoint?.Invoke(2);
         _cosmoController.gameObject.SetActive(false);
         simpleBallController.gameObject.SetActive(true);
-        _signalBus.Fire(new AppGameplaySignal());
+        _signalBus.Fire(new AppStateSignal(_diContainer.Resolve<GameplayState>()));
         simpleBallController.transform.position = _pointOfColobokAfterSpace.position;
     }
 
@@ -134,10 +138,23 @@ public class BunnyLevel : BaseMonoLevel
     public void TriggerCamp()
     {
         _campTrigger.SetActive(false);
+        _dialogWindowModel.SetDialogEntity(_campDialog, FinalPunch);
+        _signalBus.Fire(new AppStateSignal(_diContainer.Resolve<DialogState>()));
+    }
+
+    private void FinalPunch()
+    {
+        _launchToCosmosWindowModel.CallBackAfterPowerToLaunch = () =>
+        {
+            _bunnyController.gameObject.SetActive(false);
+            _signalBus.Fire(new AppStateSignal(_diContainer.Resolve<GameplayState>()));
+            //animation of punch to bunny
+        };
+        _signalBus.Fire(new AppStateSignal(_diContainer.Resolve<LaunchToCosmosState>()));
     }
 
     public void CallLoadNextLevel()
     {
-        _signalBus.Unsubscribe<AppCosmosSignal>(Handle);
+        _signalBus.Fire(new ChangeSceneSignal(Dicts.Scenes.Wolf));
     }
 }

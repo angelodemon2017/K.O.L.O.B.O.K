@@ -1,8 +1,8 @@
 ﻿using System;
-using UnityEngine;
 using Zenject;
 
-public class GameStateMachineService : IDisposable, ITickable
+public class GameStateMachineService<T> : IDisposable, ITickable
+    where T : IAppState
 {
     private SignalBus _signalBus;
     private DiContainer _container;
@@ -15,21 +15,25 @@ public class GameStateMachineService : IDisposable, ITickable
         _signalBus = signalBus;
         _container = container;
 
-        _signalBus.Subscribe<AppCinematicSignal>(EnterState<CinematicState>);
-        _signalBus.Subscribe<AppCosmosSignal>(EnterState<CosmosState>);
-        _signalBus.Subscribe<AppDialogSignal>(EnterState<DialogState>);
-        _signalBus.Subscribe<AppFailSignal>(EnterState<FailState>);
-        _signalBus.Subscribe<AppGameplaySignal>(EnterState<GameplayState>);
-        _signalBus.Subscribe<AppLaunchToCosmosSignal>(EnterState<LaunchToCosmosState>);
-        _signalBus.Subscribe<AppLoadingSignal>(EnterState<LoadingState>);
-        _signalBus.Subscribe<AppMainMenuSignal>(EnterState<MainMenuState>);
-        _signalBus.Subscribe<AppPauseSignal>(EnterState<PauseMenuState>);
+        _signalBus.Subscribe<AppStateSignal>(SetStateSignal);
     }
 
-    private void EnterState<TState>() where TState : IAppState
+    private void SetStateSignal(AppStateSignal signal)
+    {
+        EnterState(signal.State);
+    }
+
+    private void EnterState(IAppState appState)
     {
         _currentState?.Exit();
-        _currentState = _container.Resolve<TState>();
+        _currentState = appState;
+        _currentState.Enter();
+    }
+
+    private void EnterState<T2>() where T2 : IAppState
+    {
+        _currentState?.Exit();
+        _currentState = _container.Resolve<T2>();
         _currentState.Enter();
     }
 
@@ -40,14 +44,6 @@ public class GameStateMachineService : IDisposable, ITickable
 
     public void Dispose()
     {
-        _signalBus.Unsubscribe<AppCinematicSignal>(EnterState<CinematicState>);
-        _signalBus.Unsubscribe<AppCosmosSignal>(EnterState<CosmosState>);
-        _signalBus.Unsubscribe<AppDialogSignal>(EnterState<DialogState>);
-        _signalBus.Unsubscribe<AppFailSignal>(EnterState<FailState>);
-        _signalBus.Unsubscribe<AppGameplaySignal>(EnterState<GameplayState>);
-        _signalBus.Unsubscribe<AppLaunchToCosmosSignal>(EnterState<LaunchToCosmosState>);
-        _signalBus.Unsubscribe<AppLoadingSignal>(EnterState<LoadingState>);
-        _signalBus.Unsubscribe<AppMainMenuSignal>(EnterState<MainMenuState>);
-        _signalBus.Unsubscribe<AppPauseSignal>(EnterState<PauseMenuState>);
+        _signalBus.Unsubscribe<AppStateSignal>(SetStateSignal);
     }
 }

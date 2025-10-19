@@ -3634,11 +3634,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1062776083430860967, guid: affc7f2c0d949144ea39b23bed12e2c7, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 1062776083430860967, guid: affc7f2c0d949144ea39b23bed12e2c7, type: 3}
       propertyPath: m_LocalPosition.z
       value: -2.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 1062776083430860967, guid: affc7f2c0d949144ea39b23bed12e2c7, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.99965733
+      objectReference: {fileID: 0}
+    - target: {fileID: 1062776083430860967, guid: affc7f2c0d949144ea39b23bed12e2c7, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.026176924
+      objectReference: {fileID: 0}
+    - target: {fileID: 1062776083430860967, guid: affc7f2c0d949144ea39b23bed12e2c7, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1062776083430860967, guid: affc7f2c0d949144ea39b23bed12e2c7, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1062776083430860967, guid: affc7f2c0d949144ea39b23bed12e2c7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -3
       objectReference: {fileID: 0}
     - target: {fileID: 1520103356927020038, guid: affc7f2c0d949144ea39b23bed12e2c7, type: 3}
       propertyPath: _initialState
@@ -7156,6 +7176,7 @@ MonoBehaviour:
   _middleRaceDialog: {fileID: 11400000, guid: 706c97ecb207adc45b617124e1305bc6, type: 2}
   _middleOfRaceTrigger: {fileID: 1446481242}
   _cosmoController: {fileID: 2116808883}
+  _campDialog: {fileID: 11400000, guid: 4344b8723fc62714285871948fb9afe0, type: 2}
   _campTrigger: {fileID: 1817717511}
   _pointOfColobokAfterSpace: {fileID: 561017308}
 --- !u!114 &1943243073

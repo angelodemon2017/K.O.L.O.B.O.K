@@ -35,7 +35,8 @@ public class LaunchToCosmosState : AppStateWithUIBase<LaunchToCosmosWindow, Laun
     public override void Run()
     {
         if (_launchToCosmosWindowModel.PowerToLaunch >= _launchToCosmosWindowModel.PowerFromLaunch)
-            _signalBus.Fire(new AppCosmosSignal());
+            _launchToCosmosWindowModel.CallBackAfterPowerToLaunch?.Invoke();
+            //_signalBus.Fire(new AppCosmosSignal());
 
         if (_launchToCosmosWindowModel.PowerToLaunch > 0)
         {

@@ -48,7 +48,7 @@ public class LevelService : IDisposable
             UpdateCheckPoint(0);
         _targetScene = sceneSignal.SceneName;
         _baseMonoLevel?.EndLevel();
-        _signalBus.Fire(new AppLoadingSignal());
+        _signalBus.Fire(new AppStateSignal());
     }
 
     private void LoadingWindowShowed()

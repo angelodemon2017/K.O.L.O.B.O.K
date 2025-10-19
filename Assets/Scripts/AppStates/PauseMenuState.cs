@@ -27,7 +27,7 @@ public class PauseMenuState : AppStateWithUIBase<PauseWindow, PauseWindowModel>
 
     private void OnContinue()
     {
-        _signalBus.Fire(new AppGameplaySignal());
+        _signalBus.Fire(new AppStateSignal(_diContainer.Resolve<GameplayState>()));
     }
 
     protected override void ExitAppState()

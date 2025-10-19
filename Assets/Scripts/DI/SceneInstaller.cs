@@ -11,6 +11,6 @@ public class SceneInstaller : MonoInstaller
         ls.SetLevel(_baseMonoLevel);
 
         var sb = Container.Resolve<SignalBus>();
-        sb.Fire(new AppGameplaySignal());
+        sb.Fire(new AppStateSignal(Container.Resolve<GameplayState>()));
     }
 }
