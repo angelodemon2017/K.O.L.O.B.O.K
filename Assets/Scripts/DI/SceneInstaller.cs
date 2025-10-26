@@ -7,10 +7,12 @@ public class SceneInstaller : MonoInstaller
     
     public override void InstallBindings()
     {
+    }
+
+    public override void Start()
+    {
+        base.Start();
         var ls = Container.Resolve<LevelService>();
         ls.SetLevel(_baseMonoLevel);
-
-        var sb = Container.Resolve<SignalBus>();
-        sb.Fire(new AppStateSignal(Container.Resolve<GameplayState>()));
     }
 }

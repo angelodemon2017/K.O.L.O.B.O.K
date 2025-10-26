@@ -20,6 +20,7 @@ public class ProjectInstaller : MonoInstaller
 
     [Header("Configs")]
     [SerializeField] private CharactersConfig _charactersConfig;
+    [SerializeField] private MusicConfig _musicConfig;
 
     public override void InstallBindings()
     {
@@ -42,6 +43,7 @@ public class ProjectInstaller : MonoInstaller
     private void InstallConfigs()
     {
         Container.BindInstance(_charactersConfig).AsSingle();
+        Container.BindInstance(_musicConfig).AsSingle();
     }
 
     private void InstallModels()
@@ -60,7 +62,7 @@ public class ProjectInstaller : MonoInstaller
     {
         Container.BindInterfacesAndSelfTo<LevelService>().AsSingle();
         Container.BindInterfacesAndSelfTo<UIService>().AsSingle();
-        Container.BindInterfacesAndSelfTo<GameStateMachineService<IAppState>>().AsSingle();
+        Container.BindInterfacesAndSelfTo<GameStateMachineService>().AsSingle();
     }
 
     private void InitMonoServices()

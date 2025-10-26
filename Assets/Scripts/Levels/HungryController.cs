@@ -17,7 +17,9 @@ public class HungryController : BaseMonoLevel
     [SerializeField] private List<float> _borders;
 
     private float _baseScale = 1f;
-
+    
+    protected override string SceneByEnd => Dicts.Scenes.Bunny;
+    
     public static Action<int> OnLevelChanged;
     public static Action<float> OnHungryChanged;
 

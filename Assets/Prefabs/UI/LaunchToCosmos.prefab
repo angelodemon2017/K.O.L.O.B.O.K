@@ -95,6 +95,31 @@ MonoBehaviour:
   _textMeshProUGUI: {fileID: 5587327029930605881}
   _powerImageLeft: {fileID: 906314512238071203}
   _powerImageRight: {fileID: 5820284610691112945}
+  _textPulse:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.5
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _timeOfPulse: 0.5
 --- !u!225 &6304395329598896067
 CanvasGroup:
   m_ObjectHideFlags: 0

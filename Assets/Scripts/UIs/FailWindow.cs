@@ -7,7 +7,6 @@ public class FailWindow : UIWindowBase<FailWindowModel>
     [SerializeField] private Button _repeatButton;
     [SerializeField] private Button _exitButton;
 
-    public Action OnRepeat;
     public Action OnExit;
 
     public override void Show()
@@ -19,7 +18,7 @@ public class FailWindow : UIWindowBase<FailWindowModel>
 
     private void OnRepeatButtonClicked()
     {
-        OnRepeat?.Invoke();
+        _model.Repeat();
         Time.timeScale = 1f;
     }
 

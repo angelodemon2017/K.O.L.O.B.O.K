@@ -1,6 +1,6 @@
 ﻿using Zenject;
 
-public class CinematicState : AppStateWithUIBase<GameplayWindow, GameplayWindowModel>
+public class CinematicState : AppStateWithUIBase<CinematicWindow, CinematicWindowModel>
 {
     public CinematicState(
         SignalBus signalBus,

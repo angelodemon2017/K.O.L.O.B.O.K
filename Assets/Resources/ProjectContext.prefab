@@ -77,6 +77,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _inputService: {fileID: 8930751087442786514}
+  _musicService: {fileID: 8418417991068966428}
   _canvasPrefab: {fileID: 2959991653974848470, guid: da6bb853bb2660d49afa97dfe4819cf6, type: 3}
   _launchToCosmosWindow: {fileID: -1394847421314964086, guid: 6e2cd6ed99825694eb1bd1bc666e0b32, type: 3}
   _loadingWindow: {fileID: -2558441879277608886, guid: 21b355e346052e04782dd5f116f85993, type: 3}
@@ -87,6 +88,7 @@ MonoBehaviour:
   _failWindow: {fileID: 9191274116518027131, guid: 114df9d313e50e14d91693237709897f, type: 3}
   _cinematicWindow: {fileID: -9139567284251276605, guid: 3e3456ef4123eda47a612fa7a900a5a6, type: 3}
   _charactersConfig: {fileID: 11400000, guid: 374a3ee669047b547bdebbb56a96d0c2, type: 2}
+  _musicConfig: {fileID: 11400000, guid: b32c7a050fba122439f48fa788c7a75e, type: 2}
 --- !u!1 &5585195499262605814
 GameObject:
   m_ObjectHideFlags: 0

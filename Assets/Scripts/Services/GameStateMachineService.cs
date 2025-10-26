@@ -1,8 +1,8 @@
 ﻿using System;
 using Zenject;
 
-public class GameStateMachineService<T> : IDisposable, ITickable
-    where T : IAppState
+public class GameStateMachineService : IDisposable, ITickable
+    //where T : IAppState
 {
     private SignalBus _signalBus;
     private DiContainer _container;
@@ -30,7 +30,7 @@ public class GameStateMachineService<T> : IDisposable, ITickable
         _currentState.Enter();
     }
 
-    private void EnterState<T2>() where T2 : IAppState
+    public void EnterState<T2>() where T2 : IAppState
     {
         _currentState?.Exit();
         _currentState = _container.Resolve<T2>();

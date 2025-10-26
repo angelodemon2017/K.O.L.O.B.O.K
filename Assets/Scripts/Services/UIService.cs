@@ -29,6 +29,7 @@ public class UIService
 
     private void ShowWindowAsync(IWindowBase window)
     {
+        if (window == _mainRootWindow) return;
         if (_mainRootWindow != null)
         {
             _mainRootWindow.Hide();

@@ -33,8 +33,14 @@ public class LevelService : IDisposable
             _baseMonoLevel.ChangeCheckpoint -= UpdateCheckPoint;
         }
         _baseMonoLevel = baseMonoLevel;
+        _baseMonoLevel.Init();
         _baseMonoLevel.StartLevel(_checkPoint);
         _baseMonoLevel.ChangeCheckpoint += UpdateCheckPoint;
+    }
+
+    public void RunByCheckpoint()
+    {
+        _baseMonoLevel.StartLevel(_checkPoint);
     }
 
     private void UpdateCheckPoint(int checkPoint)

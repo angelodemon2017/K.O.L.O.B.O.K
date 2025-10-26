@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Zenject;
 
 public class CosmoController : MonoBehaviour, IFSMRoot, Inputer
 {
@@ -12,7 +13,9 @@ public class CosmoController : MonoBehaviour, IFSMRoot, Inputer
     [SerializeField] private FlyState _flyState;
     [SerializeField] private Transform _model;
     [SerializeField] private Transform _camera;
+    [SerializeField] private BaseState _stateByDeath;
 
+    [Inject] private GameStateMachineService _gameStateMachine;
     private Dictionary<Type, IState> _cashStates = new Dictionary<Type, IState>();
     private IState _currentState;
     private float _xControl = 0f;
@@ -46,7 +49,11 @@ public class CosmoController : MonoBehaviour, IFSMRoot, Inputer
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log($"OnTriggerEnter" + other.gameObject.name);
+        if (other.tag == Dicts.Tags.Enemy)
+        {
+            ChangeState(_stateByDeath);
+            _gameStateMachine.EnterState<FailState>();
+        }
     }
 
     public void HandleMoving(Vector2 vector2)

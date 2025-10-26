@@ -42,8 +42,8 @@ public class GameplayState : AppStateWithUIBase<GameplayWindow, GameplayWindowMo
 
     public override void Run()
     {
-        _inputer.HandleMoving(_inputService.Axises);
-        _inputer.HandleMouseLook(_inputService.MouseAxises);
+        _inputer?.HandleMoving(_inputService.Axises);
+        _inputer?.HandleMouseLook(_inputService.MouseAxises);
     }
 
     protected override void InputUnsubscribe()

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using DG.Tweening;
+using UnityEngine;
 using Zenject;
 
 public class MusicService : MonoBehaviour
@@ -28,7 +29,14 @@ public class MusicService : MonoBehaviour
         if (Volume <= 0)
             return;
 
+        DOTween.To(() => 0.1f, x => { SetVolume(x); }, 1f, 6f);
+//                     .SetEase(Ease.Linear);
         _audioSource.PlayOneShot(audioClip);
+    }
+
+    private void SetVolume(float vol)
+    {
+        _audioSource.volume = vol;
     }
 
     private void OnDestroy()

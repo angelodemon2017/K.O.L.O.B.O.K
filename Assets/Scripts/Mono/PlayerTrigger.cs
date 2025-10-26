@@ -9,6 +9,7 @@ public class PlayerTrigger : MonoBehaviour
     {
         if (other.gameObject.tag == Dicts.Tags.Player)
         {
+            gameObject.SetActive(false);
             _unityEvent?.Invoke();
         }
     }
