@@ -17,7 +17,7 @@ public class FoodInDream : MonoBehaviour
 
     private void Awake()
     {
-        HungryController.OnLevelChanged += CheckAvailables;
+        HungryDreamLevel.OnLevelChanged += CheckAvailables;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -30,7 +30,7 @@ public class FoodInDream : MonoBehaviour
 
     private void TryEating()
     {
-        HungryController.Instance.AddFood(this);
+        HungryDreamLevel.Instance.AddFood(this);
     }
 
     private void CheckAvailables(int val)
@@ -40,6 +40,6 @@ public class FoodInDream : MonoBehaviour
 
     private void OnDestroy()
     {
-        HungryController.OnLevelChanged -= CheckAvailables;
+        HungryDreamLevel.OnLevelChanged -= CheckAvailables;
     }
 }

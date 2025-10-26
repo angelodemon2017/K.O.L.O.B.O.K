@@ -8,7 +8,6 @@ public class BunnyLevel : BaseMonoLevel
     private bool _isCosmos = false;
     private MusicConfig _musicConfig;
 
-    protected override string SceneByEnd => Dicts.Scenes.Wolf;
     public override Inputer GetInputer =>
         _isCosmos ?
         _cosmoController :

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class HungryController : BaseMonoLevel
+public class HungryDreamLevel : BaseMonoLevel
 {
-    public static HungryController Instance { get; private set; }
+    public static HungryDreamLevel Instance { get; private set; }
 
     [SerializeField] private float _hungry;
     [SerializeField] private float _finalHungry;
@@ -14,21 +14,18 @@ public class HungryController : BaseMonoLevel
     [SerializeField] private Transform _minPos;
     [SerializeField] private Transform _maxPos;
     [SerializeField] private int _level = 0;
+    [SerializeField] private int _triggerLevel;
+    [SerializeField] private ActionsContainer _containerFinalDialog;
     [SerializeField] private List<float> _borders;
 
     private float _baseScale = 1f;
     
-    protected override string SceneByEnd => Dicts.Scenes.Bunny;
-    
     public static Action<int> OnLevelChanged;
     public static Action<float> OnHungryChanged;
 
-    private void Awake()
-    {
-    }
-
     public override void StartLevel(int checkPoint = 0)
     {
+        base.StartLevel(checkPoint);
         Instance = this;
         ApplyHungry();
     }
@@ -55,6 +52,10 @@ public class HungryController : BaseMonoLevel
         {
             _level++;
             OnLevelChanged?.Invoke(_level);
+            if (_level >= _triggerLevel)
+            {
+                RunContainer(_containerFinalDialog);
+            }
         }
     }
 #if UNITY_EDITOR

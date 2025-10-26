@@ -4,6 +4,7 @@ using Zenject;
 
 public class LevelService : IDisposable
 {
+    private DiContainer _container;
     private LoadingWindowModel _loadingWindowModel;
     private SignalBus _signalBus;
 
@@ -16,9 +17,11 @@ public class LevelService : IDisposable
     public Inputer CurrentAvatarController => _baseMonoLevel.GetInputer;
 
     public LevelService(
+        DiContainer container,
         LoadingWindowModel loadingWindowModel,
         SignalBus signalBus)
     {
+        _container = container;
         _signalBus = signalBus;
         _loadingWindowModel = loadingWindowModel;
 
@@ -31,11 +34,13 @@ public class LevelService : IDisposable
         if (_baseMonoLevel != null)
         {
             _baseMonoLevel.ChangeCheckpoint -= UpdateCheckPoint;
+            _baseMonoLevel.ChangeLevel -= LoadLevel;
         }
         _baseMonoLevel = baseMonoLevel;
         _baseMonoLevel.Init();
         _baseMonoLevel.StartLevel(_checkPoint);
         _baseMonoLevel.ChangeCheckpoint += UpdateCheckPoint;
+        _baseMonoLevel.ChangeLevel += LoadLevel;
     }
 
     public void RunByCheckpoint()
@@ -50,11 +55,15 @@ public class LevelService : IDisposable
 
     private void LoadLevel(ChangeSceneSignal sceneSignal)
     {
-        if (sceneSignal.SceneName != _currentLevelName)
+        LoadLevel(sceneSignal.SceneName);
+    }
+
+    private void LoadLevel(string sceneName)
+    {
+        if (sceneName != _currentLevelName)
             UpdateCheckPoint(0);
-        _targetScene = sceneSignal.SceneName;
-        _baseMonoLevel?.EndLevel();
-        _signalBus.Fire(new AppStateSignal());
+        _targetScene = sceneName;
+        _signalBus.Fire(new AppStateSignal(_container.Resolve<LoadingState>()));
     }
 
     private void LoadingWindowShowed()

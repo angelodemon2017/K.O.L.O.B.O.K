@@ -41,6 +41,6 @@ public class MusicService : MonoBehaviour
 
     private void OnDestroy()
     {
-        _signalBus.Unsubscribe<PlayClipSignal>(Handle);
+        _signalBus?.Unsubscribe<PlayClipSignal>(Handle);
     }
 }

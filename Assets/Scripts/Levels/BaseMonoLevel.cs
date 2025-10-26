@@ -1,23 +1,22 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
-using UnityEngine.Playables;
-using UnityEngine.SceneManagement;
 
 public abstract class BaseMonoLevel : MonoBehaviour
 {
     [SerializeField] private List<ActionsContainer> _cashContainers;
-    [SerializeField] protected PlayableDirector _standingDirector;
     public SimpleBallController simpleBallController;
     private Dictionary<int, ActionsContainer> _mapContainers = new();
+    [SerializeField] private SceneAsset _nextLevel;
 
     protected ActionsContainer _currentMonoStateBase;
 
-    protected abstract string SceneByEnd { get; }
     public virtual Inputer GetInputer => simpleBallController;
 
     public Action<int> ChangeCheckpoint;
+    public Action<string> ChangeLevel;
 
     private void OnValidate()
     {
@@ -52,6 +51,6 @@ public abstract class BaseMonoLevel : MonoBehaviour
 
     public virtual void EndLevel()
     {
-        SceneManager.LoadScene(SceneByEnd);
+        ChangeLevel?.Invoke(_nextLevel.name);
     }
 }
