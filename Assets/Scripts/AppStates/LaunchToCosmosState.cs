@@ -3,8 +3,6 @@ using Zenject;
 
 public class LaunchToCosmosState : AppStateWithUIBase<LaunchToCosmosWindow, LaunchToCosmosWindowModel>
 {
-    [Inject] private LaunchToCosmosWindowModel _launchToCosmosWindowModel;
-
     protected override bool _cursorIsAvaiable => false;
 
     public LaunchToCosmosState(
@@ -18,7 +16,7 @@ public class LaunchToCosmosState : AppStateWithUIBase<LaunchToCosmosWindow, Laun
     protected override void EnterAppState()
     {
         base.EnterAppState();
-        _uIWindow.ApplyPower(_launchToCosmosWindowModel.GetPercent);
+        _uIWindow.ApplyPower(_model.GetPercent);
     }
 
     protected override void InputSubscribe()
@@ -28,20 +26,19 @@ public class LaunchToCosmosState : AppStateWithUIBase<LaunchToCosmosWindow, Laun
 
     private void OnTap()
     {
-        _launchToCosmosWindowModel.PowerToLaunch += _launchToCosmosWindowModel.PowerByTap;
-        _uIWindow.ApplyPower(_launchToCosmosWindowModel.GetPercent);
+        _model.PowerToLaunch += _model.PowerByTap;
+        _uIWindow.ApplyPower(_model.GetPercent);
     }
 
     public override void Run()
     {
-        if (_launchToCosmosWindowModel.PowerToLaunch >= _launchToCosmosWindowModel.PowerFromLaunch)
-            _launchToCosmosWindowModel.CallBackAfterPowerToLaunch?.Invoke();
-            //_signalBus.Fire(new AppCosmosSignal());
+        if (_model.PowerToLaunch >= _model.PowerFromLaunch)
+            _model.CallBackAfterPowerToLaunch?.Invoke();
 
-        if (_launchToCosmosWindowModel.PowerToLaunch > 0)
+        if (_model.PowerToLaunch > 0)
         {
-            _launchToCosmosWindowModel.PowerToLaunch -= Time.deltaTime * 10;
-            _uIWindow.ApplyPower(_launchToCosmosWindowModel.GetPercent);
+            _model.PowerToLaunch -= Time.deltaTime * 10;
+            _uIWindow.ApplyPower(_model.GetPercent);
         }
     }
 

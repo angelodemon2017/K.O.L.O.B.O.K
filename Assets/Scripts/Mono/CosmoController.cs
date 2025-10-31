@@ -44,7 +44,7 @@ public class CosmoController : MonoBehaviour, IFSMRoot, Inputer
 
     private void Update()
     {
-        RunByFSM();
+        //RunByFSM();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -59,6 +59,7 @@ public class CosmoController : MonoBehaviour, IFSMRoot, Inputer
     public void HandleMoving(Vector2 vector2)
     {
         _xControl = vector2.x;
+        RunByFSM();
     }
 
     public void TransAction(bool? space, bool? force)

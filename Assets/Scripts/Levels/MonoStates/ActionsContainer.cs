@@ -24,6 +24,7 @@ public class ActionsContainer : MonoBehaviour
 
     public void ExecuteSteps()
     {
+        //Logger.Log($"ExecuteSteps:{gameObject.name}", Color.aliceBlue);
         _stepByState.ForEach(step => step.Execute());
     }
 }

@@ -3,6 +3,7 @@
 public class GameplayState : AppStateWithUIBase<GameplayWindow, GameplayWindowModel>
 {
     [Inject] private LevelService _levelService;
+    [Inject] private PauseWindowModel _pauseWindowModel;
 
     private Inputer _inputer => _levelService.CurrentAvatarController;
     protected override bool _cursorIsAvaiable => false;
@@ -27,6 +28,7 @@ public class GameplayState : AppStateWithUIBase<GameplayWindow, GameplayWindowMo
 
     private void OnPauseButtonClick()
     {
+        _pauseWindowModel.ReturningState = this;
         _signalBus.Fire(new AppStateSignal(_diContainer.Resolve<PauseMenuState>()));
     }
 

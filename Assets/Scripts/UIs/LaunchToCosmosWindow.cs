@@ -18,8 +18,9 @@ public class LaunchToCosmosWindow : UIWindowBase<LaunchToCosmosWindowModel>
         _powerImageRight.fillAmount = perc;
     }
 
-    private void Update()
+    protected override void Update()
     {
+        base.Update();
         _time += Time.deltaTime;
         _textMeshProUGUI.rectTransform.localScale = Vector3.one * (_textPulse.Evaluate(_time) + 1f);
         if (_time > _timeOfPulse)

@@ -3,20 +3,22 @@ using Zenject;
 
 public class ProjectInstaller : MonoInstaller
 {
-    [Header("MonoServices")]
+    [Header("MonoServices")]    
+    [SerializeField] private PostEffectController _postEffectController;
     [SerializeField] private InputService _inputService;
     [SerializeField] private MusicService _musicService;
 
     [Header("Prefabs")]
     [SerializeField] private Canvas _canvasPrefab;
+    [SerializeField] private CinematicWindow _cinematicWindow;
+    [SerializeField] private DialogWindow _dialogWindow;
+    [SerializeField] private DisclaimerWindow _disclaimerWindow;
+    [SerializeField] private FailWindow _failWindow;
+    [SerializeField] private GameplayWindow _gameplayWindow;
     [SerializeField] private LaunchToCosmosWindow _launchToCosmosWindow;
     [SerializeField] private LoadingWindow _loadingWindow;
-    [SerializeField] private PauseWindow _pauseWindow;
     [SerializeField] private MainMenuWindow _mainMenuWindow;
-    [SerializeField] private GameplayWindow _gameplayWindow;
-    [SerializeField] private DialogWindow _dialogWindow;
-    [SerializeField] private FailWindow _failWindow;
-    [SerializeField] private CinematicWindow _cinematicWindow;
+    [SerializeField] private PauseWindow _pauseWindow;
 
     [Header("Configs")]
     [SerializeField] private CharactersConfig _charactersConfig;
@@ -24,13 +26,13 @@ public class ProjectInstaller : MonoInstaller
 
     public override void InstallBindings()
     {
+        InstallSignals();
         InstallBrefabs();
         InstallConfigs();
         InstallModels();
         InstallSerives();
         InitMonoServices();
         InstallUI();
-        InstallSignal();
         InstallAppStates();
         InstallFSMStates();
     }
@@ -56,6 +58,7 @@ public class ProjectInstaller : MonoInstaller
         Container.BindInterfacesAndSelfTo<LoadingWindowModel>().AsSingle();
         Container.BindInterfacesAndSelfTo<MainMenuWindowModel>().AsSingle();
         Container.BindInterfacesAndSelfTo<PauseWindowModel>().AsSingle();
+        Container.BindInterfacesAndSelfTo<WindowModelBase>().AsSingle();
     }
 
     private void InstallSerives()
@@ -67,6 +70,7 @@ public class ProjectInstaller : MonoInstaller
 
     private void InitMonoServices()
     {
+        Container.BindInstance(_postEffectController).AsSingle();
         Container.BindInstance(_inputService).AsSingle();
         Container.BindInstance(_musicService).AsSingle();
     }
@@ -74,33 +78,39 @@ public class ProjectInstaller : MonoInstaller
     private void InstallUI()
     {
         Container.Bind<CinematicWindow>().FromComponentInNewPrefab(_cinematicWindow).AsSingle();
+        Container.Bind<DialogWindow>().FromComponentInNewPrefab(_dialogWindow).AsSingle();
+        Container.Bind<DisclaimerWindow>().FromComponentInNewPrefab(_disclaimerWindow).AsSingle();
         Container.Bind<FailWindow>().FromComponentInNewPrefab(_failWindow).AsSingle();
+        Container.Bind<GameplayWindow>().FromComponentInNewPrefab(_gameplayWindow).AsSingle();
         Container.Bind<LaunchToCosmosWindow>().FromComponentInNewPrefab(_launchToCosmosWindow).AsSingle();
         Container.Bind<LoadingWindow>().FromComponentInNewPrefab(_loadingWindow).AsSingle();
-        Container.Bind<PauseWindow>().FromComponentInNewPrefab(_pauseWindow).AsSingle();
         Container.Bind<MainMenuWindow>().FromComponentInNewPrefab(_mainMenuWindow).AsSingle();
-        Container.Bind<GameplayWindow>().FromComponentInNewPrefab(_gameplayWindow).AsSingle();
-        Container.Bind<DialogWindow>().FromComponentInNewPrefab(_dialogWindow).AsSingle();
+        Container.Bind<PauseWindow>().FromComponentInNewPrefab(_pauseWindow).AsSingle();
     }
 
-    private void InstallSignal()
-    {        
+    private void InstallSignals()
+    {
         SignalBusInstaller.Install(Container);
         Container.DeclareSignal<ChangeSceneSignal>();
         Container.DeclareSignal<PlayClipSignal>();
+
+        Container.DeclareSignal<DebugEffectSignal>();
+        Container.DeclareSignal<CinemaEffectSignal>();
 
         Container.DeclareSignal<AppStateSignal>();
     }
 
     private void InstallAppStates()
-    {        
-        Container.BindInterfacesAndSelfTo<FailState>().AsSingle();
+    {
+        Container.BindInterfacesAndSelfTo<CatapultState>().AsSingle();
         Container.BindInterfacesAndSelfTo<CinematicState>().AsSingle();
-        Container.BindInterfacesAndSelfTo<LoadingState>().AsSingle();
-        Container.BindInterfacesAndSelfTo<LaunchToCosmosState>().AsSingle();
         Container.BindInterfacesAndSelfTo<CosmosState>().AsSingle();
         Container.BindInterfacesAndSelfTo<DialogState>().AsSingle();
+        Container.BindInterfacesAndSelfTo<DisclaimerState>().AsSingle();
+        Container.BindInterfacesAndSelfTo<FailState>().AsSingle();
         Container.BindInterfacesAndSelfTo<GameplayState>().AsSingle();
+        Container.BindInterfacesAndSelfTo<LaunchToCosmosState>().AsSingle();
+        Container.BindInterfacesAndSelfTo<LoadingState>().AsSingle();
         Container.BindInterfacesAndSelfTo<MainMenuState>().AsSingle();
         Container.BindInterfacesAndSelfTo<PauseMenuState>().AsSingle();
     }

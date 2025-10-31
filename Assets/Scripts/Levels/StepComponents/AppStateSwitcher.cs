@@ -9,7 +9,6 @@ public class AppStateSwitcher : StepComponentBase
 
     [Inject] private GameStateMachineService _gameStateMachine;
     [Inject] private LaunchToCosmosWindowModel _launchToCosmosWindowModel;
-    [Inject] private CinematicWindowModel _cinematicWindowModel;
     
     public override void Execute()
     {
@@ -22,7 +21,6 @@ public class AppStateSwitcher : StepComponentBase
                 _gameStateMachine.EnterState<DialogState>();
                 break;
             case EAppStates.Cinema:
-                _cinematicWindowModel.CallBackAfterEnd = CallBack;
                 _gameStateMachine.EnterState<CinematicState>();
                 break;
             case EAppStates.LaunchToCosmosState:
@@ -31,6 +29,12 @@ public class AppStateSwitcher : StepComponentBase
                 break;
             case EAppStates.CosmosState:
                 _gameStateMachine.EnterState<CosmosState>();
+                break;
+            case EAppStates.DiclaimerState:
+                _gameStateMachine.EnterState<DisclaimerState>();
+                break;
+            case EAppStates.CatapultState:
+                _gameStateMachine.EnterState<CatapultState>();
                 break;
         }
     }
@@ -47,5 +51,7 @@ public class AppStateSwitcher : StepComponentBase
         Cinema = 3,
         LaunchToCosmosState = 10,
         CosmosState = 11,
+        DiclaimerState = 12,
+        CatapultState = 13,
     }
 }

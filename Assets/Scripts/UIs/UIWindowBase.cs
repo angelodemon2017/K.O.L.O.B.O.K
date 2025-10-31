@@ -7,6 +7,8 @@ public class UIWindowBase<T> : MonoBehaviour, IWindowBase where T : WindowModelB
 {
     [SerializeField] protected CanvasGroup _canvasGroup;
 
+    private bool _calcOn = false;
+    private bool _isShow = false;
     [Inject] protected T _model;
 
     public Transform GetTransform => transform;
@@ -16,21 +18,60 @@ public class UIWindowBase<T> : MonoBehaviour, IWindowBase where T : WindowModelB
         _canvasGroup = GetComponent<CanvasGroup>();
     }
 
+    private void Awake()
+    {
+        _canvasGroup.alpha = 0f;
+    }
+
     public virtual void Show()
     {
         gameObject.SetActive(true);
-        _canvasGroup.DOFade(1f, 1f)
-            .OnComplete(() => CallCallBacksAfterShowed());
+        _isShow = true;
+        _calcOn = true;
+        //_canvasGroup.DOFade(1f, 1f)
+        //    .OnComplete(() => CallCallBacksAfterShowed());
+    }
+
+    protected virtual void Update()
+    {
+        CalcVisibility();
+    }
+
+    private void CalcVisibility()
+    {
+        if (!_calcOn) return;
+
+        if (_isShow && _canvasGroup.alpha < 1)
+        {
+            _canvasGroup.alpha += Time.deltaTime;
+            if (_canvasGroup.alpha >= 1f)
+            {
+                CallCallBacksAfterShowed();
+                _calcOn = false;
+            }
+        }
+        if (!_isShow && _canvasGroup.alpha > 0)
+        {
+            _canvasGroup.alpha -= Time.deltaTime;
+            if (_canvasGroup.alpha <= 0)
+            {
+                _calcOn = false;
+                gameObject.SetActive(false);
+            }
+        }
     }
 
     protected virtual void CallCallBacksAfterShowed()
     {
+        //Debug.LogError($"CallCallBacksAfterShowed-{gameObject.name}");
         _model.Showed?.Invoke();
     }
 
     public virtual void Hide()
     {
-        _canvasGroup.DOFade(0f, 1f)
-            .OnComplete(() => gameObject.SetActive(false));
+        _isShow = false;
+        _calcOn = true;
+        //_canvasGroup.DOFade(0f, 1f)
+        //.OnComplete(() => gameObject.SetActive(false));
     }
 }

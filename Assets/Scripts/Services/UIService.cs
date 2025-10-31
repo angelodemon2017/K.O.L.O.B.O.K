@@ -29,6 +29,7 @@ public class UIService
 
     private void ShowWindowAsync(IWindowBase window)
     {
+        //Debug.LogError($"ChangeWindow: from-{(_mainRootWindow == null ? string.Empty : _mainRootWindow.GetType().Name)} to-{window.GetType().Name}");
         if (window == _mainRootWindow) return;
         if (_mainRootWindow != null)
         {

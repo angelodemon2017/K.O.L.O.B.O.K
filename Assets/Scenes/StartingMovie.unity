@@ -2862,19 +2862,7 @@ MonoBehaviour:
   _appState: 3
   _callBackAfterEndState:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 278456429}
-        m_TargetAssemblyTypeName: BaseMonoLevel, Assembly-CSharp
-        m_MethodName: RunContainer
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 773671015}
-          m_ObjectArgumentAssemblyTypeName: ActionsContainer, Assembly-CSharp
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1542383607
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2889,6 +2877,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _standingDirector: {fileID: 1118646273}
   _clip: {fileID: 11400000, guid: 0c37cc3c7635af946a14a458790e7993, type: 2}
+  _callBackAfterStoppedCutScene:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 278456429}
+        m_TargetAssemblyTypeName: BaseMonoLevel, Assembly-CSharp
+        m_MethodName: RunContainer
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 773671015}
+          m_ObjectArgumentAssemblyTypeName: ActionsContainer, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1542383609
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2976,7 +2979,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1548329461}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.0012483696, y: 0.9987417, z: -0.033147838, w: 0.037613276}
+  m_LocalRotation: {x: 0.012259409, y: 0.9645537, z: -0.04554374, w: 0.2596374}
   m_LocalPosition: {x: 9.799988, y: 11.24, z: 17.890015}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4081,69 +4084,6 @@ MonoBehaviour:
       m_Data: []
   m_Knots:
     m_KnotsLink: []
---- !u!1 &2082012691
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2082012693}
-  - component: {fileID: 2082012692}
-  - component: {fileID: 2082012694}
-  m_Layer: 0
-  m_Name: Global Volume
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &2082012692
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2082012691}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IsGlobal: 1
-  priority: 0
-  blendDistance: 0
-  weight: 1
-  sharedProfile: {fileID: 11400000, guid: 9570f43bba2883d499ce9ebfc0def5e8, type: 2}
---- !u!4 &2082012693
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2082012691}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 500, y: 0, z: 500}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2082012694
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2082012691}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7004fbf1bdc02d4ba325337b1e346bf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _volume: {fileID: 2082012692}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -4159,7 +4099,6 @@ SceneRoots:
   - {fileID: 1292555378}
   - {fileID: 247871661}
   - {fileID: 321312483}
-  - {fileID: 2082012693}
   - {fileID: 1827711804}
   - {fileID: 610102641}
   - {fileID: 73392567}

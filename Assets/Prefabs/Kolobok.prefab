@@ -195,7 +195,7 @@ MonoBehaviour:
     jumpForce: 10
     groundLayer:
       serializedVersion: 2
-      m_Bits: 64
+      m_Bits: 320
     groundCheckDistance: 0.6
     _targetObjects:
       serializedVersion: 2
@@ -213,7 +213,6 @@ MonoBehaviour:
   _speed: 0
   _initialState: {fileID: 11400000, guid: 236884bc1b4707e4d95b62830c24b2dc, type: 2}
   _rb: {fileID: 1301119312734641380}
-  _currentStateName: 
   Axises: {x: 0, y: 0}
 --- !u!114 &6008957782843169692
 MonoBehaviour:

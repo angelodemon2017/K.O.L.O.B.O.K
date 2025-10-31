@@ -19,14 +19,12 @@ public class FailWindow : UIWindowBase<FailWindowModel>
     private void OnRepeatButtonClicked()
     {
         _model.Repeat();
-        Time.timeScale = 1f;
     }
 
     private void OnExitButtonClicked()
     {
         OnExit?.Invoke();
         Debug.Log("Exit button clicked");
-        Time.timeScale = 1f;
     }
 
     public override void Hide()
@@ -34,5 +32,7 @@ public class FailWindow : UIWindowBase<FailWindowModel>
         base.Hide();
         _repeatButton.onClick.RemoveListener(OnRepeatButtonClicked);
         _exitButton.onClick.RemoveListener(OnExitButtonClicked);
+        _canvasGroup.alpha = 0f;
+        gameObject.SetActive(false);
     }
 }
